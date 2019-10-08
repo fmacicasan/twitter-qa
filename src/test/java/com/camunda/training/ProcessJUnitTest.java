@@ -1,5 +1,6 @@
 package com.camunda.training;
 
+import org.camunda.bpm.engine.runtime.Job;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.engine.test.Deployment;
@@ -41,6 +42,12 @@ public class ProcessJUnitTest {
         List<Task> tasks = taskService().createTaskQuery().list();
         assertThat(tasks.get(0)).hasCandidateGroup("management");
         taskService().complete(tasks.get(0).getId(), withVariables("approved", true));
+        List<Job> jobList = jobQuery()
+                .processInstanceId(processInstance.getId())
+                .list();
+        assertThat(jobList).hasSize(1);
+        Job job = jobList.get(0);
+        execute(job);
         assertThat(processInstance).isEnded();
     }
 

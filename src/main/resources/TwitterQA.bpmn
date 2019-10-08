@@ -33,7 +33,7 @@
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${not approved}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_0lg162n" sourceRef="Task_181d96q" targetRef="EndEvent_0kro5bu" />
-    <bpmn:serviceTask id="Task_1qv98tw" name="Publish Tweet" camunda:delegateExpression="${publishTweetDelegate}">
+    <bpmn:serviceTask id="Task_1qv98tw" name="Publish Tweet" camunda:asyncBefore="true" camunda:delegateExpression="${publishTweetDelegate}">
       <bpmn:incoming>SequenceFlow_0ft0rjt</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0ol870q</bpmn:outgoing>
     </bpmn:serviceTask>
