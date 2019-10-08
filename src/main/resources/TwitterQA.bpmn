@@ -23,8 +23,8 @@
       <bpmn:outgoing>SequenceFlow_0lg162n</bpmn:outgoing>
       <bpmn:script>print("Notify Employee")</bpmn:script>
     </bpmn:scriptTask>
-    <bpmn:sequenceFlow id="SequenceFlow_024sh13" sourceRef="StartEvent_1" targetRef="Task_1sm9bho" />
-    <bpmn:sequenceFlow id="SequenceFlow_0yyosau" sourceRef="Task_1sm9bho" targetRef="ExclusiveGateway_0rl4yi3" />
+    <bpmn:sequenceFlow id="SequenceFlow_024sh13" sourceRef="StartEvent_1" targetRef="CheckTweetTask" />
+    <bpmn:sequenceFlow id="SequenceFlow_0yyosau" sourceRef="CheckTweetTask" targetRef="ExclusiveGateway_0rl4yi3" />
     <bpmn:sequenceFlow id="SequenceFlow_0ft0rjt" name="yes" sourceRef="ExclusiveGateway_0rl4yi3" targetRef="Task_1qv98tw">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${approved}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
@@ -33,14 +33,14 @@
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${not approved}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_0lg162n" sourceRef="Task_181d96q" targetRef="EndEvent_0kro5bu" />
-    <bpmn:manualTask id="Task_1sm9bho" name="Check Tweet">
-      <bpmn:incoming>SequenceFlow_024sh13</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_0yyosau</bpmn:outgoing>
-    </bpmn:manualTask>
     <bpmn:serviceTask id="Task_1qv98tw" name="Publish Tweet" camunda:delegateExpression="${publishTweetDelegate}">
       <bpmn:incoming>SequenceFlow_0ft0rjt</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0ol870q</bpmn:outgoing>
     </bpmn:serviceTask>
+    <bpmn:userTask id="CheckTweetTask" name="Check Tweet" camunda:formKey="embedded:app:forms/CheckTweetTask.html" camunda:candidateGroups="management">
+      <bpmn:incoming>SequenceFlow_024sh13</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0yyosau</bpmn:outgoing>
+    </bpmn:userTask>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_18o61j8">
@@ -105,11 +105,11 @@
       <bpmndi:BPMNShape id="ScriptTask_15xwgue_di" bpmnElement="Task_181d96q">
         <dc:Bounds x="520" y="250" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ManualTask_10j5aoz_di" bpmnElement="Task_1sm9bho">
-        <dc:Bounds x="260" y="137" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_080rs4r_di" bpmnElement="Task_1qv98tw">
         <dc:Bounds x="520" y="137" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_0qu1j27_di" bpmnElement="CheckTweetTask">
+        <dc:Bounds x="260" y="137" width="100" height="80" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
